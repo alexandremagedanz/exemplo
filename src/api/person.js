@@ -1,9 +1,9 @@
-const serviceUser = require("../services/user")
+const servicePerson = require("../services/person")
 
-class userApi {  
+class personApi {  
     async findAll(_, res) {
         try {
-            const result = await serviceUser.findAll()
+            const result = await servicePerson.findAll()
             
             res.status(200).send({ result })
         } catch (e) {
@@ -14,7 +14,7 @@ class userApi {
     async findById(req, res) {
         try {
             const { id } = req.params
-            const result = await serviceUser.findById(id)
+            const result = await servicePerson.findById(id)
 
             res.status(200).send({ result })
         } catch (e) {
@@ -22,10 +22,10 @@ class userApi {
         }
     }
 
-    async createUser(req, res) {
+    async createPerson(req, res) {
         try {
-            const { email, password } = req.body
-            await serviceUser.createUser(email, password)
+            const { name, address, userId } = req.body
+            await servicePerson.createPerson(name, address, userId)
             
             res.status(201).send()
         } catch (e) {
@@ -33,11 +33,11 @@ class userApi {
         }
     }
 
-    async updadeUser(req, res) {
+    async updadePerson(req, res) {
         try {
             const { id } = req.params
-            const { email, password } = req.body
-            const result = await serviceUser.updateUser(id, email, password)
+            const { name, address } = req.body
+            const result = await servicePerson.updatePerson(id, name, address)
             
             res.status(200).send({ result })
         } catch (e) {
@@ -45,10 +45,10 @@ class userApi {
         }
     }
 
-    async deleteUser(req, res) {
+    async deletePerson(req, res) {
         try {
             const { id } = req.params
-            await serviceUser.deleteUser(id)
+            await servicePerson.deletePerson(id)
             
             res.status(204).send()
         } catch (e) {
@@ -57,4 +57,4 @@ class userApi {
     }
 
 }
-module.exports = new userApi();
+module.exports = new personApi();

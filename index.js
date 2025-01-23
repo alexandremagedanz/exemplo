@@ -1,12 +1,23 @@
 const express = require('express')
-const router = require('./src/routes/user')
+const userRouter = require('./src/routes/user')
+const personRouter = require('./src/routes/person')
+const database = require("./src/database");
 
 const app = express()
 const porta = 3000
 app.use(express.json())
 
-app.use('/api/v1/user', router)
+app.use('/api/v1/user', userRouter)
+app.use('/api/v1/person', personRouter)
 
-app.listen(porta, () => {
-    console.log('Servidor Rodando na porta ' + porta + '!')
-})
+database.db
+    .sync ({force: false})
+    .then ((_) => {
+        app.listen(porta, () => {
+            console.log('Servidor Rodando na porta ' + porta + '!')
+        })
+    })
+    .catch((e) => {
+        console.error(`Não foi possível conectar com o banco: ${e}`)
+    })
+
